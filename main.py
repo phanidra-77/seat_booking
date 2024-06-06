@@ -3,7 +3,7 @@ from webdriver_manager.firefox import GeckoDriverManager
 
 # Check Selenium and WebDriver Manager versions
 print("Selenium version:", selenium.__version__)
-print("WebDriver Manager version:", GeckoDriverManager().get_version())
+print("WebDriver Manager version:", GeckoDriverManager().get_driver_version())
 
 # Check Firefox version
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
