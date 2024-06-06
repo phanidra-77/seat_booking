@@ -27,6 +27,7 @@ driver.implicitly_wait(5)
 # Open the website
 driver.get(website_url)
 # Find the login form elements and fill them in
+"""
 username_field = driver.find_element(By.ID, "txtUserName")
 username_field.send_keys(username)
 
@@ -98,6 +99,8 @@ confirm_button = driver.find_element(By.XPATH, "//button[text()='Click to Confir
 confirm_button.click()
 error_message = "successfully booked the 151 cubical to you please cross check once."
 send_email("Cubical booking success Notification", error_message)
+"""
+
 time.sleep(50)
 # Close the browser
 driver.quit()
