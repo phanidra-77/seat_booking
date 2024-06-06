@@ -20,7 +20,8 @@ website_url = "https://ifazility.com/Optdesk/Account/Login"
 #webdriver_path = "C:\Users\Public\Desktop"
 
 # Initialize the webdriver
-driver = webdriver.Chrome(ChromeDriverManager().install())
+driver_path = "/usr/local/bin/"
+driver = webdriver.Chrome(driver_path)
 driver.implicitly_wait(5)
 
 # Open the website
