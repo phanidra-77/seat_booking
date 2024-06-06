@@ -3,7 +3,10 @@ from webdriver_manager.firefox import GeckoDriverManager
 
 # Check Selenium and WebDriver Manager versions
 print("Selenium version:", selenium.__version__)
-print("WebDriver Manager version:", GeckoDriverManager().get_version())
+
+# Print WebDriver Manager version
+webdriver_manager_version = GeckoDriverManager().get_download_url().split("/")[-2]
+print("WebDriver Manager version:", webdriver_manager_version)
 
 # Check Firefox version
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
@@ -12,7 +15,7 @@ firefox_version = binary.capabilities['browserVersion']
 print("Firefox version:", firefox_version)
 
 # Check geckodriver version
-geckodriver_version = GeckoDriverManager().get_version()
+geckodriver_version = GeckoDriverManager().get_driver_latest_release_version()
 print("Geckodriver version:", geckodriver_version)
 
 # Verify compatibility
