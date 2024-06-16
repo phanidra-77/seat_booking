@@ -1,38 +1,66 @@
-name: Run Python Script
+name: Run Python examples
 
-# This triggers the workflow to run on a schedule.
 on:
+  workflow_dispatch:
   schedule:
-    # Schedule runs using cron syntax. 
-    # This example runs at midnight UTC every day.
-    - cron: '0 0 * * *'
-  workflow_dispatch:  # Allows manual trigger of the workflow from the GitHub UI
+    - cron: '50 22 * * *'
+  pull_request:
+    branches:
+      - trunk
+    paths:
+      - 'examples/python/**'
+  push:
+    branches:
+      - trunk
+    paths:
+      - 'examples/python/**'
+
+env:
+  DISPLAY: :99
+  GITHUB_TOKEN: ${{ secrets.SELENIUM_CI_TOKEN }}
+  GH_TOKEN: ${{ secrets.SELENIUM_CI_TOKEN }}
 
 jobs:
-  run-script:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu runner provided by GitHub
-
+  test_examples:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        release: [ stable, nightly ]
+    runs-on: ${{ matrix.os }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2  # This checks out your repository under $GITHUB_WORKSPACE
-      
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.9.x'  # Specify the version of Python to use
-    
-      - name: Install Chrome
-        run: |
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-          sudo apt-get update
-          sudo apt-get install google-chrome-stable -y
-        
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt  # Ensure you have a requirements.txt if needed
-
-      - name: Run Python script
-        run: |
-          python main.py  # Replace with your actual script name
+    - name: Checkout GitHub repo
+      uses: actions/checkout@v4
+    - name: Remove driver directories Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        rm "$env:ChromeWebDriver" -r -v
+        rm "$env:EdgeWebDriver" -r -v
+        rm "$env:GeckoWebDriver" -r -v
+    - name: Remove driver directories Non-Windows
+      if: matrix.os != 'windows-latest'
+      run: |
+        sudo rm -rf $CHROMEWEBDRIVER $EDGEWEBDRIVER $GECKOWEBDRIVER
+    - name: Start Xvfb
+      if: matrix.os == 'ubuntu-latest'
+      run: Xvfb :99 &
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.8
+    - name: Install dependencies nightly
+      if: matrix.release == 'nightly'
+      working-directory: ./examples/python
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple --force-reinstall -v selenium
+    - name: Install dependencies stable
+      if: matrix.release == 'stable'
+      working-directory: ./examples/python
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run Python script
+      run: |
+        python main.py  # Replace with your actual script name
