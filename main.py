@@ -104,7 +104,7 @@ confirm_button = driver.find_element(By.XPATH, "//button[text()='Click to Confir
 # Click the "Click to Confirm" button
 confirm_button.click()
 error_message = "successfully booked the 151 cubical to you please cross check once."
-send_email("Cubical booking success Notification", error_message)
+#send_email("Cubical booking success Notification", error_message)
 time.sleep(50)
 # Close the browser
 driver.quit()
