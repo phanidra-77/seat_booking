@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
-        release: [ stable, nightly ]
+        release: [ stable ]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout GitHub repo
@@ -37,18 +37,12 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: 3.8
-    - name: Install dependencies nightly
-      if: matrix.release == 'nightly'
-      working-directory: ./
-        python3.8 -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install -i https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple --force-reinstall -v selenium
     - name: Install dependencies stable
       if: matrix.release == 'stable'
       working-directory: ./
       run: |
-        python3.8 -m pip install --upgrade pip
+        python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Python script
       run: |
-        python3 main.py  # Replace with your actual script name
+        python main.py  # Replace with your actual script name
