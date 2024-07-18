@@ -97,6 +97,7 @@ new_y2_value =0
 # Execute the JavaScript function using Selenium
 driver.execute_script(f"{function_name}({new_x1_value},{new_x2_value}, {new_y1_value},{new_y2_value}, '{date}', '{enddate}', '{starttime}', '{endtime}')")
 # Find the dropdown element by its ID
+time.sleep(4)
 dropdown_1 = driver.find_element(By.ID,"tmestart")
 # Create a Select object from the dropdown element
 select_1 = Select(dropdown_1)
