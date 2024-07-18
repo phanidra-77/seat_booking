@@ -79,6 +79,12 @@ driver.execute_script("document.getElementById('X1').value = '{}'".format(new_x1
 driver.execute_script("document.getElementById('Y1').value = '{}'".format(new_y1_value))
 # Identify the JavaScript function and its parameters
 function_name = "checkbookingstatus_greyred"
+# Find the dropdown element by its ID
+dropdown_1 = driver.find_element(By.ID,"tmestart")
+# Create a Select object from the dropdown element
+select_1 = Select(dropdown_1)
+#Select by value
+select_1.select_by_value("10:40:00")
 # Find the elements and get their values
 starttime_element = driver.find_element(By.ID,"dtsearchfrom")
 starttime = starttime_element.get_attribute("value")
