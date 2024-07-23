@@ -44,15 +44,15 @@ password_field.send_keys(password)
 password_field.send_keys(Keys.RETURN)
 
 # Wait for a few seconds to let the page load
-time.sleep(2)
+time.sleep(5)
 booking_url = "https://ifazility.com/optdesk/Admin/WorkStationBook"
 driver.get(booking_url)
 # Wait for a few seconds to let the page load
-time.sleep(2)
+time.sleep(5)
 # Find the date field element by its ID
 state_date = driver.find_element(By.ID, 'searchfromdate')
 # Calculate tomorrow's date
-tomorrow = datetime.now() + timedelta(days=6)
+tomorrow = datetime.now() + timedelta(days=7)
 tomorrow_date = tomorrow.strftime('%m/%d/%Y')  # Format as MM/DD/YYYY
 # Update the value of the date field with tomorrow's date
 driver.execute_script("arguments[0].setAttribute('value', arguments[1])", state_date, tomorrow_date)
@@ -97,7 +97,7 @@ new_y2_value =0
 # Execute the JavaScript function using Selenium
 driver.execute_script(f"{function_name}({new_x1_value},{new_x2_value}, {new_y1_value},{new_y2_value}, '{date}', '{enddate}', '{starttime}', '{endtime}')")
 # Find the dropdown element by its ID
-time.sleep(4)
+time.sleep(5)
 dropdown_1 = driver.find_element(By.ID,"tmestart")
 # Create a Select object from the dropdown element
 select_1 = Select(dropdown_1)
