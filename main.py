@@ -15,8 +15,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.action_chains import ActionChains
 import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
+# Replace these with your actual username and password
 # Replace these with your actual username and password
 username = "Phanindra.Vemuganti@synopsys.com"
 password = "Phani7@180020040"
@@ -47,12 +50,14 @@ password_field.send_keys(Keys.RETURN)
 time.sleep(5)
 booking_url = "https://ifazility.com/optdesk/Admin/WorkStationBook"
 driver.get(booking_url)
+
 # Wait for a few seconds to let the page load
-time.sleep(5)
+WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "searchfromdate")))
+
 # Find the date field element by its ID
 state_date = driver.find_element(By.ID, 'searchfromdate')
 # Calculate tomorrow's date
-tomorrow = datetime.now() + timedelta(days=7)
+tomorrow = datetime.now() + timedelta(days=2)
 tomorrow_date = tomorrow.strftime('%m/%d/%Y')  # Format as MM/DD/YYYY
 # Update the value of the date field with tomorrow's date
 driver.execute_script("arguments[0].setAttribute('value', arguments[1])", state_date, tomorrow_date)
@@ -69,6 +74,9 @@ select.select_by_value("10:40:00")
 #clicking the select button
 submit_button = driver.find_element(By.ID, 'btnsearch')
 submit_button.click()
+
+WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.ID, "X1")))
+
 #1041 1437 cubicl ws-151
 # Set the desired values for X1 and Y1
 new_x1_value = "1041"
@@ -96,9 +104,9 @@ new_x2_value =0
 new_y2_value =0
 # Execute the JavaScript function using Selenium
 driver.execute_script(f"{function_name}({new_x1_value},{new_x2_value}, {new_y1_value},{new_y2_value}, '{date}', '{enddate}', '{starttime}', '{endtime}')")
+
 # Find the dropdown element by its ID
-time.sleep(5)
-dropdown_1 = driver.find_element(By.ID,"tmestart")
+dropdown_1 = WebDriverWait(driver, 50).until(EC.visibility_of_element_located((By.ID, "tmestart")))
 # Create a Select object from the dropdown element
 select_1 = Select(dropdown_1)
 #Select by value
@@ -106,8 +114,9 @@ select_1.select_by_value("10:40:00")
 save_button = driver.find_element(By.XPATH, "//button[contains(@onclick, 'saveworkstation')]")
 # Click the "Save" button
 save_button.click()
-time.sleep(10)
-confirm_button = driver.find_element(By.XPATH, "//button[text()='Click to Confirm']")
+
+confirm_button = WebDriverWait(driver, 55).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Click to Confirm']")))
+
 # Click the "Click to Confirm" button
 confirm_button.click()
 error_message = "successfully booked the 151 cubical to you please cross check once."
