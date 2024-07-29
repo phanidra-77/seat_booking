@@ -114,6 +114,10 @@ save_button = driver.find_element(By.XPATH, "//button[contains(@onclick, 'savewo
 # Click the "Save" button
 save_button.click()
 
+# Take a screenshot after clicking the button
+screenshot_filename = "screenshot_after_click.png"
+driver.save_screenshot(screenshot_filename)
+
 confirm_button = WebDriverWait(driver, 55).until(EC.presence_of_element_located((By.XPATH, "//button[text()='Click to Confirm']")))
 
 # Click the "Click to Confirm" button
