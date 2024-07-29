@@ -46,8 +46,14 @@ jobs:
     - name: Run Python script
       run: |
         python main.py  # Replace with your actual script name
-    - name: Upload screenshot
+
+    - name: Organize screenshots
+      run: |
+          mkdir --parents "/tmp/screenshots/"
+    - name: Upload screenshots
       uses: actions/upload-artifact@v4
       with:
-        name: screenshot
-        path: screenshot_after_click.png
+        name: screenshot_after_click.png
+        path: /tmp/screenshots/
+    - name: Upload screenshot
+      uses: actions/upload-artifact@v4
