@@ -33,7 +33,6 @@ website_url = "https://ifazility.com/Optdesk/Account/Login"
 # Initialize the webdriver
 driver = webdriver.Chrome()
 driver.implicitly_wait(5)
-print(datetime.now())
 # Open the website
 driver.get(website_url)
 # Find the login form elements and fill them in
